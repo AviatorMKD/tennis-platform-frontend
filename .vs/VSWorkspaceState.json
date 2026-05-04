@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\features",
+    "\\src\\features\\admin",
+    "\\src\\features\\admin\\pages",
+    "\\src\\features\\auth",
+    "\\src\\features\\auth\\pages",
+    "\\src\\features\\profile"
+  ],
+  "PreviewInSolutionExplorer": false
+}

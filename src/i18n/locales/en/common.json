@@ -1,0 +1,59 @@
+{
+  "appName": "Tennis.mk",
+  "login": "Login",
+  "clubs": "Clubs",
+  "myBookings": "My Bookings",
+  "profile": "Profile",
+  "language": "Language",
+
+  "home": {
+    "heroKicker": "Discover. Book. Invite. Play.",
+    "heroTitle": "Your game starts here.",
+    "heroSubtitle": "Find courts. Find players.",
+    "heroDescription": "Search tennis venues in Skopje by time and duration, then move straight into a booking-ready venue view with matching courts.",
+    "noMatchesTitle": "Oops! No exact matches found",
+    "noMatchesMessage": "No matching venues were found for the selected search. You can still browse all registered venues below.",
+    "matchingVenues": "Matching Venues",
+    "registeredVenues": "Registered Venues",
+    "sectionDescription": "Explore venues in a discovery-first layout. Select one to continue into the new booking-oriented venue page.",
+    "searchError": "Failed to search venue courts availability.",
+    "loadError": "Failed to load venues.",
+
+    "quickSearch": {
+      "title": "Find your next court",
+      "helperText": "Search venues by date and time range.",
+      "date": "Date",
+      "selectTimeRange": "Select time range",
+      "surface": "Surface",
+      "anySurface": "Any surface",
+      "indoorOutdoor": "Indoor / Outdoor",
+      "any": "Any",
+      "indoor": "Indoor",
+      "outdoor": "Outdoor",
+      "noRangeSelected": "No range selected",
+      "searching": "Searching...",
+      "search": "Search",
+      "cancel": "Cancel",
+      "ok": "Ok",
+      "surfaces": {
+        "clay": "Clay",
+        "hard": "Hard",
+        "grass": "Grass",
+        "carpet": "Carpet"
+      }
+    },
+
+    "clubCard": {
+      "locationNotSpecified": "Location not specified",
+      "availableCount": "{{count}} available",
+      "courtCount": "{{count}} courts",
+      "courtsTbd": "Courts TBD",
+      "matchingCount": "{{count}} matching",
+      "fromPrice": "From {{price}} {{currency}}",
+      "address": "Address",
+      "phone": "Phone",
+      "notSpecified": "Not specified",
+      "viewClub": "View club"
+    }
+  }
+}
