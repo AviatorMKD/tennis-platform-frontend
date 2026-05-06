@@ -15,7 +15,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { registerRequest } from '../../../api/auth.api';
 import { extractApiErrorMessage } from '../../../shared/utils/apiError';
 
-const TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
 const countryCodeOptions = [
     { value: '+389', label: '+389 Macedonia' },
@@ -33,11 +33,11 @@ const countryCodeOptions = [
 ];
 
 const experienceDescriptions: Record<number, string> = {
-    1: 'Beginner level description.',
-    2: 'Recreational level description.',
-    3: 'Intermediate level description.',
-    4: 'Advanced level description.',
-    5: 'Competitive level description.',
+    1: 'Beginner - New to tennis or learning the fundamentals. Limited consistency, short rallies, and basic understanding of strokes and rules.',
+    2: 'Recreational - Plays casually with some ability to rally. Basic shot control is present, but consistency and technique are still developing.',
+    3: 'Intermediate - Maintains consistent rallies and demonstrates control over most strokes. Understands basic tactics and can structure points.',
+    4: 'Advanced - Strong and reliable technique with good consistency under pressure. Uses tactics effectively and can vary pace, spin, and placement.',
+    5: 'Competitive - Actively competes in leagues or tournaments. High consistency, physical readiness, and performance-driven, strategic play.',
 };
 
 const experienceMarks = [

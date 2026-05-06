@@ -770,12 +770,13 @@ const weatherQuery = useQuery({
     <Paper
       elevation={8}
       sx={{
-        borderRadius: { xs: 4, md: 3 },
-        p: { xs: 2, md: 3 },
-        bgcolor: '#f7f7f7',
-        color: 'text.primary',
-        boxShadow: '0 16px 32px rgba(0,0,0,0.18)',
-      }}
+  width: '100%',
+  borderRadius: { xs: 4, md: 3 },
+  p: { xs: 2, md: 3 },
+  bgcolor: '#f7f7f7',
+  color: 'text.primary',
+  boxShadow: '0 16px 32px rgba(0,0,0,0.18)',
+}}
     >
       <Stack spacing={2.25}>
         <Box>

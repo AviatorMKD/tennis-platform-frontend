@@ -3,6 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import TodayIcon from '@mui/icons-material/Today';
+import Avatar from '@mui/material/Avatar';
 import {
   Alert,
   Box,
@@ -364,24 +365,67 @@ function FullBookingDetails({
           <Stack spacing={1}>
             {booking.participants.map((participant) => (
               <Box
-                key={participant.id}
-                sx={{
-                  p: 1.25,
-                  borderRadius: 2,
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  bgcolor: 'background.default',
-                }}
-              >
-                <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                  {participant.displayName ||
-                    `User #${participant.userId ?? 'unknown'}`}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {participant.participantType || 'Participant'} ·{' '}
-                  {participant.participationStatus || 'Unknown'}
-                </Typography>
-              </Box>
+  key={participant.id}
+  sx={{
+    p: 1.25,
+    borderRadius: 2,
+    border: '1px solid',
+    borderColor: 'divider',
+    bgcolor: 'background.default',
+  }}
+>
+  <Stack direction="row" spacing={1.25} alignItems="flex-start">
+    <Avatar
+      src={participant.profileImageUrl ?? undefined}
+      alt={participant.displayName ?? 'Participant'}
+      sx={{
+        width: 40,
+        height: 40,
+        fontSize: 14,
+        fontWeight: 800,
+      }}
+    >
+      {(participant.displayName ||
+        `U${participant.userId ?? ''}` ||
+        'P')
+        .trim()
+        .charAt(0)
+        .toUpperCase()}
+    </Avatar>
+
+    <Stack spacing={0.45} sx={{ minWidth: 0 }}>
+      <Typography variant="body2" sx={{ fontWeight: 800, lineHeight: 1.2 }}>
+        {participant.displayName ||
+          `User #${participant.userId ?? 'unknown'}`}
+      </Typography>
+
+      {participant.email && (
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ lineHeight: 1.15, wordBreak: 'break-word' }}
+        >
+          E-mail: {participant.email}
+        </Typography>
+      )}
+
+      {participant.phone && (
+        <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.15 }}>
+          Phone no.: {participant.phone}
+        </Typography>
+      )}
+
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ fontWeight: 700, pt: 0.2 }}
+      >
+        {participant.participantType || 'Participant'} ·{' '}
+        {participant.participationStatus || 'Unknown'}
+      </Typography>
+    </Stack>
+  </Stack>
+</Box>
             ))}
           </Stack>
         </Box>
@@ -672,83 +716,101 @@ export function OperatorClubSchedulePage() {
           <Stack spacing={3}>
             <Card>
               <CardContent>
-                <Stack
-                  direction={{ xs: 'column', md: 'row' }}
-                  spacing={2}
-                  justifyContent="space-between"
-                  alignItems={{ xs: 'stretch', md: 'center' }}
-                >
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={{ xs: 1.25, sm: 1.5 }}
-                    alignItems={{ xs: 'stretch', sm: 'center' }}
-                    flexWrap="wrap"
-                    useFlexGap
-                    sx={{ width: '100%' }}
-                  >
-                    <DatePicker
-                      label="Schedule date"
-                      value={dayjs(selectedDate)}
-                      onChange={(value) => {
-                        if (!value) {
-                          return;
-                        }
+  <Stack spacing={1.5}>
+    <Stack
+      direction="row"
+      spacing={1.25}
+      alignItems="center"
+      sx={{ width: '100%' }}
+    >
+      <DatePicker
+        label="Schedule date"
+        value={dayjs(selectedDate)}
+        onChange={(value) => {
+          if (!value) {
+            return;
+          }
 
-                        setSelectedDate(value.format('YYYY-MM-DD'));
-                      }}
-                      format="DD/MM/YYYY"
-                      slotProps={{
-                        textField: {
-                          size: 'small',
-                        },
-                      }}
-                    />
+          setSelectedDate(value.format('YYYY-MM-DD'));
+        }}
+        format="DD/MM/YYYY"
+        slotProps={{
+          textField: {
+            size: 'small',
+            sx: {
+              flex: 1,
+              minWidth: 0,
+            },
+          },
+        }}
+      />
 
-                    <Button
-                      variant={isToday ? 'contained' : 'outlined'}
-                      startIcon={<TodayIcon />}
-                      onClick={() => setSelectedDate(getBusinessTodayIsoDate())}
-                    >
-                      Today
-                    </Button>
+      <Button
+        variant={isToday ? 'contained' : 'outlined'}
+        startIcon={<TodayIcon />}
+        onClick={() => setSelectedDate(getBusinessTodayIsoDate())}
+        sx={{
+          flexShrink: 0,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        Today
+      </Button>
+    </Stack>
 
-                    {schedule && (
-                      <>
-                        <Chip
-                          icon={<AccessTimeIcon />}
-                          label={`${schedule.operatingOpenTime} – ${schedule.operatingCloseTime}`}
-                          variant="outlined"
-                        />
-                        <Chip
-                          icon={<SportsTennisIcon />}
-                          label={`${schedule.courts.length} court(s)`}
-                          variant="outlined"
-                        />
-                        <Chip
-                          label={`${schedule.bookings.length} booking(s)`}
-                          color={schedule.bookings.length > 0 ? 'success' : 'default'}
-                          variant="outlined"
-                        />
-                        <Chip
-                          label={`${schedule.blocks.length} block(s)`}
-                          color={schedule.blocks.length > 0 ? 'warning' : 'default'}
-                          variant="outlined"
-                        />
-                      </>
-                    )}
-                  </Stack>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: {
+          xs: 'repeat(2, minmax(0, 1fr))',
+          md: 'repeat(4, minmax(0, auto))',
+        },
+        gap: 1,
+        justifyContent: { xs: 'stretch', md: 'flex-start' },
+      }}
+    >
+      {schedule && (
+        <>
+          <Chip
+            icon={<AccessTimeIcon />}
+            label={`${schedule.operatingOpenTime} – ${schedule.operatingCloseTime}`}
+            variant="outlined"
+            sx={{ width: '100%' }}
+          />
 
-                  <Button
-                    variant="outlined"
-                    startIcon={<RefreshIcon />}
-                    onClick={() => void scheduleQuery.refetch()}
-                    disabled={scheduleQuery.isFetching}
-                    sx={{ width: { xs: '100%', md: 'auto' } }}
-                  >
-                    Refresh
-                  </Button>
-                </Stack>
-              </CardContent>
+          <Chip
+            icon={<SportsTennisIcon />}
+            label={`${schedule.courts.length} court(s)`}
+            variant="outlined"
+            sx={{ width: '100%' }}
+          />
+
+          <Chip
+            label={`${schedule.bookings.length} booking(s)`}
+            variant="outlined"
+            sx={{ width: '100%' }}
+          />
+
+          <Chip
+            label={`${schedule.blocks.length} block(s)`}
+            variant="outlined"
+            sx={{ width: '100%' }}
+          />
+        </>
+      )}
+    </Box>
+
+    <Button
+      variant="outlined"
+      startIcon={<RefreshIcon />}
+      onClick={() => void scheduleQuery.refetch()}
+      disabled={scheduleQuery.isFetching}
+      sx={{ width: { xs: '100%', md: 'auto' }, alignSelf: { md: 'flex-start' } }}
+    >
+      Refresh
+    </Button>
+  </Stack>
+</CardContent>
             </Card>
 
             {scheduleQuery.isLoading && !schedule && (
@@ -762,10 +824,11 @@ export function OperatorClubSchedulePage() {
             )}
 
             {schedule && (
-              <Paper
+                <>
+                <Paper
                 variant="outlined"
                 sx={{
-                  borderRadius: 4,
+                  borderRadius: 0,
                   overflow: 'hidden',
                   bgcolor: '#ffffff',
                   boxShadow: '0 10px 28px rgba(15,23,42,0.05)',
@@ -870,19 +933,78 @@ export function OperatorClubSchedulePage() {
                         })}
 
                         {nowLineLeft && (
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              left: nowLineLeft,
-                              top: 0,
-                              bottom: 0,
-                              width: '2px',
-                              bgcolor: 'error.main',
-                              zIndex: 5,
-                              boxShadow: '0 0 0 1px rgba(255,255,255,0.6)',
-                            }}
-                          />
-                        )}
+  <>
+    <Box
+      sx={{
+        position: 'absolute',
+        left: nowLineLeft,
+        top: 0,
+        bottom: 0,
+        width: '2px',
+        bgcolor: 'error.main',
+        zIndex: 5,
+        boxShadow: '0 0 0 1px rgba(255,255,255,0.6)',
+      }}
+    />
+
+    <Box
+  sx={{
+    position: 'absolute',
+    left: nowLineLeft,
+    top: -5,
+    transform: 'translateX(-50%)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: 0.75,
+    zIndex: 6,
+    boxShadow: '0 2px 6px rgba(0,0,0,0.22)',
+  }}
+>
+  <Box
+    sx={{
+      px: 0.6,
+      py: 0.18,
+      bgcolor: 'error.main',
+      color: 'common.white',
+    }}
+  >
+    <Typography
+      variant="caption"
+      sx={{
+        fontSize: '0.68rem',
+        fontWeight: 900,
+        lineHeight: 1,
+        letterSpacing: 0.6,
+      }}
+    >
+      NOW
+    </Typography>
+  </Box>
+
+  <Box
+    sx={{
+      px: 0.6,
+      py: 0.18,
+      bgcolor: 'error.main',
+      color: 'common.white',
+    }}
+  >
+    <Typography
+      variant="caption"
+      sx={{
+        fontSize: '0.68rem',
+        fontWeight: 800,
+        lineHeight: 1,
+        letterSpacing: 0.35,
+      }}
+    >
+      {formatMinutes(Math.floor(nowMinutes))}
+    </Typography>
+  </Box>
+</Box>
+  </>
+)}
                       </Box>
                     </Box>
 
@@ -1082,7 +1204,23 @@ export function OperatorClubSchedulePage() {
                   </Box>
                 </Box>
               </Paper>
-            )}
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  mt: 1.25,
+                  px: { xs: 0.5, md: 0 },
+                  lineHeight: 1.5,
+                }}
+              >
+                This daily schedule provides a live timeline view of all court bookings
+                and court blocks for the selected date. Select any booking to view its
+                full details and, when required, cancel the booking directly from the
+                details window.
+                            </Typography>
+            </>
+          )}
           </Stack>
         </Container>
 

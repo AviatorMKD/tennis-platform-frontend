@@ -5,6 +5,7 @@ export type BookingParticipantDto = {
   bookingId: number;
   userId: number | null;
   displayName: string | null;
+  email: string | null;
   phone: string | null;
   profileImageUrl: string | null;
   participantType: string | null;

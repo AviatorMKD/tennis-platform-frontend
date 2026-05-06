@@ -679,16 +679,8 @@ export function CourtBookingPanel({
               alignItems: 'stretch',
             }}
           >
-            <Paper
-              variant="outlined"
-              sx={{
-                p: 2.2,
-                borderRadius: 3.5,
-                background: '#ffffff',
-                boxShadow: '0 10px 28px rgba(15,23,42,0.05)',
-              }}
-            >
-              <Stack spacing={2}>
+            <Box>
+  <Stack spacing={2}>
                 <Paper
                   variant="outlined"
                   onClick={() => handleNeedsPlayersToggle(!needsPlayers)}
@@ -791,43 +783,58 @@ export function CourtBookingPanel({
                             }}
                           >
                             <Box
-                              sx={{
-                                display: 'grid',
-                                gridTemplateColumns: '1fr 1fr',
-                                gap: 1.5,
-                                gridColumn: { xs: '1 / -1', md: '1 / -1' },
-                              }}
-                            >
-                              <TextField
-                                label="Minimum Players (Self included)"
-                                type="number"
-                                value={minPlayers}
-                                onChange={(event) => {
-                                  const nextMin = clamp(Number(event.target.value) || 1, 1, 4);
-                                  setMinPlayers(nextMin);
+  sx={{
+    px: 1.5,
+    py: 1.5,
+    borderRadius: 2.5,
+    bgcolor: '#ffffff',
+    border: '1px solid',
+    borderColor: 'divider',
+    gridColumn: { xs: '1 / -1', md: '1 / -1' },
+  }}
+>
+  <Stack
+    direction="row"
+    justifyContent="space-between"
+    alignItems="center"
+    sx={{ mb: 1 }}
+  >
+    <Typography variant="body2" sx={{ fontWeight: 700 }}>
+      Players: {minPlayers} - {maxPlayers}
+    </Typography>
 
-                                  setMaxPlayers((previousMax) =>
-                                    previousMax < nextMin ? nextMin : previousMax
-                                  );
-                                }}
-                                inputProps={{ min: 1, max: 4, step: 1 }}
-                                helperText="Allowed range: 1 to 4"
-                                fullWidth
-                              />
+    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 700 }}>
+      Self included
+    </Typography>
+  </Stack>
 
-                              <TextField
-                                label="Maximum Players"
-                                type="number"
-                                value={maxPlayers}
-                                onChange={(event) => {
-                                  const nextMax = clamp(Number(event.target.value) || 1, minPlayers, 4);
-                                  setMaxPlayers(nextMax);
-                                }}
-                                inputProps={{ min: minPlayers, max: 4, step: 1 }}
-                                helperText={`Allowed range: ${minPlayers} to 4`}
-                                fullWidth
-                              />
-                            </Box>
+  <Slider
+    value={[minPlayers, maxPlayers]}
+    onChange={(_, value) => {
+      const [nextMinRaw, nextMaxRaw] = value as number[];
+
+      const nextMin = clamp(nextMinRaw, 1, 4);
+      let nextMax = clamp(nextMaxRaw, nextMin, 4);
+
+      if (nextMin === 1 && nextMax === 1) {
+        nextMax = 2;
+      }
+
+      setMinPlayers(nextMin);
+      setMaxPlayers(nextMax);
+    }}
+    min={1}
+    max={4}
+    step={1}
+    marks
+    valueLabelDisplay="auto"
+    disableSwap
+  />
+
+  <Typography variant="caption" color="text.secondary">
+    Select the minimum and maximum number of players for this booking.
+  </Typography>
+</Box>
 
                             <Box
                               sx={{
@@ -914,7 +921,7 @@ export function CourtBookingPanel({
                   </Collapse>
                 </Paper>
 
-                <Divider />
+
 
                 <TextField
                   label="Optional booking comment"
@@ -946,11 +953,11 @@ export function CourtBookingPanel({
                     {isCreatingBooking ? 'Creating Booking...' : 'Create Booking'}
                   </Button>
                 )}
-              </Stack>
-            </Paper>
+                  </Stack>
+              </Box>
 
-            <Paper
-              variant="outlined"
+              <Paper
+                variant="outlined"
               sx={{
                 ...getCourtSurfaceTextureSx(court.surfaceType),
                 p: 2.2,

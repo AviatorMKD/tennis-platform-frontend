@@ -50,7 +50,7 @@ export function ClubHeroSection({ club, rightContent }: ClubHeroSectionProps) {
         position: 'relative',
       }}
     >
-      <Box sx={{ position: 'relative', p: { xs: 3, md: 5 } }}>
+      <Box sx={{ position: 'relative' }}>
         <Box
           sx={{
             display: 'grid',
@@ -62,7 +62,14 @@ export function ClubHeroSection({ club, rightContent }: ClubHeroSectionProps) {
             alignItems: 'center',
           }}
         >
-          <Stack spacing={2.5}>
+          <Stack
+              spacing={2.5}
+              sx={{
+                width: '100%',
+                maxWidth: { xs: '100%', sm: 760, lg: 920, xl: 'none' },
+                mx: { xs: 0, sm: 'auto', xl: 0 },
+              }}
+            >
             <Stack direction="row" spacing={1} alignItems="center">
               <SportsTennisIcon />
               <Typography variant="overline" sx={{ letterSpacing: 1.4 }}>
@@ -76,7 +83,6 @@ export function ClubHeroSection({ club, rightContent }: ClubHeroSectionProps) {
                 sx={{
                   fontWeight: 900,
                   mb: 1.25,
-                  maxWidth: 760,
                   lineHeight: 0.96,
                   letterSpacing: '-0.03em',
                   fontSize: {
@@ -92,9 +98,9 @@ export function ClubHeroSection({ club, rightContent }: ClubHeroSectionProps) {
               </Typography>
 
               <Typography
-                variant="body1"
-                sx={{ maxWidth: 760, opacity: 0.92, fontSize: { xs: 18, md: 20 } }}
-              >
+                  variant="body1"
+                  sx={{ opacity: 0.92, fontSize: { xs: 18, md: 20 } }}
+                >
                 Choose your date, time range, and preferences, then book directly from
                 the matching courts below.
               </Typography>
@@ -103,7 +109,6 @@ export function ClubHeroSection({ club, rightContent }: ClubHeroSectionProps) {
                 <Typography
                   variant="body2"
                   sx={{
-                    maxWidth: 760,
                     opacity: 0.86,
                     mt: 1.25,
                     lineHeight: 1.45,
@@ -187,16 +192,18 @@ export function ClubHeroSection({ club, rightContent }: ClubHeroSectionProps) {
           </Stack>
 
           {rightContent && (
-            <Box
-              sx={{
-                width: '100%',
-                minWidth: 0,
-                justifySelf: 'stretch',
-              }}
-            >
-              {rightContent}
-            </Box>
-          )}
+  <Box
+    sx={{
+      width: '100%',
+      minWidth: 0,
+      maxWidth: { xs: '100%', sm: 520, md: 760, lg: 920, xl: 'none' },
+      mx: { xs: 0, sm: 'auto', xl: 0 },
+      justifySelf: { xs: 'stretch', sm: 'center', xl: 'stretch' },
+    }}
+  >
+    {rightContent}
+  </Box>
+)}
         </Box>
       </Box>
     </Box>

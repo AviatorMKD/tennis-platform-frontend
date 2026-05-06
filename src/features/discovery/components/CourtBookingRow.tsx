@@ -15,8 +15,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMemo, useState, type ReactElement, type ReactNode } from 'react';
 import type {
-    ClubWeatherHourDto,
-    CourtAvailabilityDetailDto,
+  ClubWeatherHourDto,
+  CourtAvailabilityDetailDto,
 } from '../../../api/discovery.api';
 import { formatLocalShortDate } from '../../../shared/utils/dateTime';
 import { formatCurrency } from '../../../shared/utils/formatCurrency';
@@ -52,8 +52,8 @@ type CourtBookingRowProps = {
   maxAllowedDurationMinutes?: number;
   allowedDurations?: number[];
   courtPriceRules?: CourtPriceRuleLite[];
-    playerRequirementCutoffHours?: number | null;
-    weatherHours?: ClubWeatherHourDto[];
+  playerRequirementCutoffHours?: number | null;
+  weatherHours?: ClubWeatherHourDto[];
 };
 
 type SelectionReason = 'overlap' | 'duration_not_allowed' | 'too_long' | null;
@@ -71,19 +71,21 @@ export function CourtBookingRow({
   maxAllowedDurationMinutes,
   allowedDurations,
   courtPriceRules = [],
-    playerRequirementCutoffHours,
-    weatherHours = [],
+  playerRequirementCutoffHours,
+  weatherHours = [],
 }: CourtBookingRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedStartTime, setSelectedStartTime] = useState(inheritedStartLocalTime);
   const [selectedEndTime, setSelectedEndTime] = useState(
     addMinutesToTimeString(inheritedStartLocalTime, inheritedDurationMinutes)
   );
+
   const [previewState, setPreviewState] = useState<CourtTimelinePreviewState>({
     hasActivePreview: false,
     isValid: true,
     reason: null,
   });
+
   const [previewRangeState, setPreviewRangeState] = useState<CourtTimelinePreviewRangeState>({
     hasActivePreview: false,
     fromKey: inheritedStartLocalTime,
@@ -102,7 +104,8 @@ export function CourtBookingRow({
         toKey: previewRangeState.toKey,
         fromMinutes: getSelectionBounds(previewRangeState.fromKey, previewRangeState.toKey)
           .fromMinutes,
-        toMinutes: getSelectionBounds(previewRangeState.fromKey, previewRangeState.toKey).toMinutes,
+        toMinutes: getSelectionBounds(previewRangeState.fromKey, previewRangeState.toKey)
+          .toMinutes,
       }
     : selectionBounds;
 
@@ -238,6 +241,7 @@ export function CourtBookingRow({
                 pointerEvents: 'none',
               }}
             />
+
             <Box
               sx={{
                 position: 'absolute',
@@ -273,12 +277,7 @@ export function CourtBookingRow({
           }}
         >
           <Stack spacing={1.25} sx={{ minWidth: 0, flex: 1 }}>
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              spacing={1}
-              alignItems={{ xs: 'flex-start', sm: 'center' }}
-              useFlexGap
-            >
+            <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
               <Typography
                 variant="h5"
                 sx={{
@@ -300,11 +299,50 @@ export function CourtBookingRow({
                   color: '#ffffff',
                 }}
               />
+
+              <Box
+                sx={{
+                  display: { xs: 'block', lg: 'none' },
+                  px: 1.1,
+                  py: 0.7,
+                  borderRadius: 1.75,
+                  bgcolor: 'rgba(255,255,255,0.16)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.28)',
+                }}
+              >
+                <Typography
+                  variant="overline"
+                  sx={{
+                    display: 'block',
+                    lineHeight: 1,
+                    letterSpacing: 0.8,
+                    color: 'rgba(255,255,255,0.78)',
+                    fontWeight: 800,
+                    fontSize: '0.62rem',
+                  }}
+                >
+                  Price
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontWeight: 900,
+                    color: 'common.white',
+                    textShadow: '0 2px 10px rgba(0,0,0,0.28)',
+                    fontSize: '0.95rem',
+                    lineHeight: 1.15,
+                  }}
+                >
+                  {priceLabel}
+                </Typography>
+              </Box>
             </Stack>
 
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
               <GlassChip label={court.surfaceType || 'Surface unspecified'} />
               <GlassChip label={court.isIndoor ? 'Indoor' : 'Outdoor'} variant="outlined" />
+
               {court.indoorCoverType && (
                 <GlassChip
                   icon={<InfoOutlinedIcon />}
@@ -312,6 +350,7 @@ export function CourtBookingRow({
                   variant="outlined"
                 />
               )}
+
               {court.hasLighting && (
                 <GlassChip
                   icon={<WbIncandescentIcon />}
@@ -319,6 +358,7 @@ export function CourtBookingRow({
                   variant="outlined"
                 />
               )}
+
               {court.hasHeating && (
                 <GlassChip
                   icon={<ThermostatIcon />}
@@ -326,13 +366,11 @@ export function CourtBookingRow({
                   variant="outlined"
                 />
               )}
+
               {court.hasCooling && (
-                <GlassChip
-                  icon={<BoltIcon />}
-                  label="Cooling"
-                  variant="outlined"
-                />
+                <GlassChip icon={<BoltIcon />} label="Cooling" variant="outlined" />
               )}
+
               {court.conditionRating != null && (
                 <GlassChip
                   label={
@@ -350,7 +388,7 @@ export function CourtBookingRow({
           <Box
             sx={{
               width: { xs: '100%', lg: 'auto' },
-              display: 'flex',
+              display: { xs: 'none', lg: 'flex' },
               justifyContent: { xs: 'flex-start', lg: 'flex-end' },
               flexShrink: 0,
             }}
@@ -379,6 +417,7 @@ export function CourtBookingRow({
               >
                 Price
               </Typography>
+
               <Typography
                 sx={{
                   fontWeight: 900,
@@ -463,6 +502,7 @@ export function CourtBookingRow({
                   )}`}
                   variant="outlined"
                 />
+
                 <Chip
                   size="small"
                   label={formatDurationLabel(displayDurationMinutes)}
@@ -514,44 +554,26 @@ export function CourtBookingRow({
                 pb: 0.5,
               }}
             >
-              <PaperLikePanel>
-                <CourtBookingPanel
-                  date={date}
-                  startLocalTime={selectionBounds.fromKey}
-                  durationMinutes={selectedDurationMinutes}
-                  court={court}
-                  displayPrice={localCalculatedPrice.price}
-                  displayCurrency={localCalculatedPrice.currency}
-                  isSelectionAvailable={effectiveIsAvailable}
-                  playerRequirementCutoffHours={playerRequirementCutoffHours}
-                  onBookingCreated={async () => {
-                    setIsDetailsOpen(false);
-                    await onBookingCreated();
-                  }}
-                  onCancel={() => setIsDetailsOpen(false)}
-                />
-              </PaperLikePanel>
+              <CourtBookingPanel
+                date={date}
+                startLocalTime={selectionBounds.fromKey}
+                durationMinutes={selectedDurationMinutes}
+                court={court}
+                displayPrice={localCalculatedPrice.price}
+                displayCurrency={localCalculatedPrice.currency}
+                isSelectionAvailable={effectiveIsAvailable}
+                playerRequirementCutoffHours={playerRequirementCutoffHours}
+                onBookingCreated={async () => {
+                  setIsDetailsOpen(false);
+                  await onBookingCreated();
+                }}
+                onCancel={() => setIsDetailsOpen(false)}
+              />
             </Box>
           </Collapse>
         </Stack>
       </CardContent>
     </Card>
-  );
-}
-
-function PaperLikePanel({ children }: { children: ReactNode }) {
-  return (
-    <Box
-      sx={{
-        border: '1px solid',
-        borderColor: 'divider',
-        borderRadius: 3,
-        bgcolor: 'rgba(255,255,255,0.78)',
-        p: { xs: 2, md: 2.5 },
-      }}
-    >
-      {children}
-    </Box>
   );
 }
 

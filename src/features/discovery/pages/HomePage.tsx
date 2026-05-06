@@ -203,7 +203,7 @@ export function HomePage() {
                   fontWeight: 400,
                   lineHeight: 1.05,
                   maxWidth: 760,
-                  fontSize: { xs: '2.2rem', md: '3.7rem' },
+                  fontSize: { xs: '1.7rem', sm: '2.2rem', md: '3.7rem' },
                 }}
               >
                 {t('home.heroSubtitle')}
